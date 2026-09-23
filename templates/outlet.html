@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan di Outlet | Pisang Lamak</title>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- PENGATURAN WARNA --- */
+        :root {
+            --kuning-pisang: #FFDF00;
+            --hijau-segar: #4CAF50;
+            --coklat-kraft: #6D4C41;
+            --krem-background: #FFF9E6;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--krem-background);
+            color: var(--coklat-kraft);
+            margin: 0; padding: 0;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- ANIMASI GELEMBUNG (SOFT BUBBLES) --- */
+        .bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .bubble {
+            position: absolute; bottom: -100px;
+            background-color: rgba(76, 175, 80, 0.15);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in;
+        }
+        .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-duration: 9s; }
+        .bubble:nth-child(2) { width: 40px; height: 40px; left: 30%; animation-duration: 6s; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 100px; height: 100px; left: 50%; animation-duration: 12s; }
+        .bubble:nth-child(4) { width: 60px; height: 60px; left: 70%; animation-duration: 8s; animation-delay: 1s; }
+        
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-1000px) scale(1.5); opacity: 0; }
+        }
+
+        /* --- BAGIAN HEADER --- */
+        header {
+            background-color: var(--hijau-segar); /* Dibedakan jadi hijau agar outlet terasa beda */
+            width: 100%; padding: 30px 20px; text-align: center;
+            border-bottom: 8px solid var(--coklat-kraft);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            color: white;
+        }
+
+        .wadah-maskot {
+            background: white; width: 100px; height: 100px; margin: 0 auto 10px auto;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            border: 4px solid var(--kuning-pisang);
+            overflow: hidden;
+            animation: goyang 2s infinite alternate ease-in-out;
+        }
+        .wadah-maskot img { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes goyang {
+            0% { transform: rotate(-5deg) translateY(0); }
+            100% { transform: rotate(5deg) translateY(-5px); }
+        }
+
+        header h1 { font-size: 2.5em; margin: 0; text-shadow: 2px 2px 0px var(--coklat-kraft); }
+        .slogan { font-size: 1.2em; margin-top: 10px; font-weight: 600; color: var(--coklat-kraft); background: var(--kuning-pisang); display: inline-block; padding: 8px 20px; border-radius: 25px; border: 2px dashed var(--coklat-kraft); }
+
+        /* --- KONTEN MENU INTERAKTIF --- */
+        .konten-utama { max-width: 1000px; margin: 40px auto; padding: 0 20px; text-align: center; flex: 1; }
+        .konten-utama h2 { color: var(--hijau-segar); font-size: 2.5em; text-shadow: 1px 1px 0px white; margin-bottom: 10px; }
+        
+        .info-topping-box { background: white; border: 3px dashed var(--coklat-kraft); padding: 12px 20px; border-radius: 20px; margin-bottom: 35px; font-weight: 600; display: inline-block; }
+        .info-topping-box span { color: #FF5722; font-weight: 700; }
+
+        .grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; }
+        .kartu {
+            background: rgba(255, 255, 255, 0.9); border: 4px solid var(--coklat-kraft);
+            border-radius: 25px; padding: 30px 20px; position: relative;
+            box-shadow: 0 10px 0 var(--kuning-pisang);
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .kartu:hover { transform: translateY(-10px); box-shadow: 0 20px 0 var(--hijau-segar); }
+        
+        .badge-baru { position: absolute; top: 15px; right: 15px; background: #FF5722; color: white; padding: 4px 10px; border-radius: 10px; font-weight: bold; transform: rotate(10deg); }
+        .ikon-menu { font-size: 60px; margin-bottom: 15px; }
+        .kartu h3 { margin: 10px 0; color: var(--hijau-segar); font-size: 1.6em; }
+        .harga { font-weight: 700; color: var(--coklat-kraft); font-size: 1.1em; background: var(--krem-background); padding: 6px 14px; border-radius: 12px; border: 2px dashed var(--coklat-kraft); display: inline-block; margin-bottom: 15px;}
+        .btn-pesan-kartu { background: var(--kuning-pisang); color: var(--coklat-kraft); padding: 10px; border-radius: 15px; font-weight: bold; width: 100%; border: 2px solid var(--coklat-kraft); font-family: 'Fredoka'; cursor: pointer; font-size: 1.1em; pointer-events: none; }
+
+        /* --- PAPAN ANTREAN LIVE --- */
+        .wadah-antrean { margin-top: 50px; background: white; padding: 30px; border-radius: 25px; border: 4px solid var(--coklat-kraft); box-shadow: 0 10px 0 var(--kuning-pisang); margin-bottom: 40px;}
+        .tiket { background: #FAFAFA; padding: 15px 20px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-left: 8px solid var(--hijau-segar); border-right: 2px solid #eee; border-top: 2px solid #eee; border-bottom: 2px solid #eee; }
+        .status-badge { background: #FFDF00; color: var(--coklat-kraft); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 2px solid var(--coklat-kraft); }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--coklat-kraft); color: var(--krem-background);
+            width: 100%; text-align: center; padding: 20px; border-top: 6px solid var(--kuning-pisang);
+            box-sizing: border-box;
+        }
+
+        /* --- MODAL / POPUP PESANAN --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px);
+            z-index: 1000; justify-content: center; align-items: center;
+        }
+        .modal-content {
+            background: white; padding: 30px; border-radius: 25px; width: 90%; max-width: 400px;
+            text-align: left; border: 4px solid var(--coklat-kraft); box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            animation: muncul 0.3s ease-out; position: relative;
+        }
+        @keyframes muncul { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .btn-tutup { position: absolute; top: 15px; right: 20px; font-size: 1.5em; cursor: pointer; color: red; font-weight: bold; }
+        .form-grup { margin-bottom: 15px; }
+        .form-grup label { font-weight: bold; color: var(--hijau-segar); display: block; margin-bottom: 5px; }
+        .form-grup input[type="text"], .form-grup select {
+            width: 100%; padding: 12px; border-radius: 12px; border: 2px solid #ccc;
+            font-family: 'Fredoka'; font-size: 1em; box-sizing: border-box;
+        }
+        .btn-submit-pesanan {
+            width: 100%; background: var(--hijau-segar); color: white;
+            padding: 15px; border: none; border-radius: 15px;
+            font-weight: bold; font-size: 1.2em; cursor: pointer; box-shadow: 0 6px 0 #2E7D32;
+            font-family: 'Fredoka'; margin-top: 10px; transition: 0.1s;
+        }
+        .btn-submit-pesanan:active { transform: translateY(6px); box-shadow: 0 0 0 #2E7D32; }
+    </style>
+</head>
+<body>
+
+    <!-- Animasi Bubble -->
+    <div class="bubbles">
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+    </div>
+
+    <!-- HEADER KHUSUS OUTLET -->
+    <header>
+        <div class="wadah-maskot">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Pisang Lamak">
+        </div>
+        <h1>📍 OUTLET PISANG LAMAK</h1>
+        <div class="slogan">Silakan pilih menu & ambil antrean kasir!</div>
+    </header>
+
+    <div class="konten-utama">
+        <h2>Pilih Menu Favoritmu 🍌</h2>
+        <div class="info-topping-box">
+            ✨ Semua Varian <span>Rp 15.000</span> | Extra Topping Cukup <span>+Rp 2.000</span> ✨<br>
+            <small style="color: gray;">(Klik kotak menu di bawah untuk mulai memesan)</small>
+        </div>
+        
+        <!-- GRID MENU (BISA DIKLIK) -->
+        <div class="grid-menu">
+            <div class="kartu" style="border-color: var(--hijau-segar);" onclick="bukaModal('Matcha Green Tea')">
+                <div class="badge-baru">BARU! 🔥</div>
+                <div class="ikon-menu">🍵</div>
+                <h3 style="color: #2E7D32;">Matcha Green Tea</h3>
+                <div class="harga">Rp 15.000</div>
+                <button class="btn-pesan-kartu">Ambil Antrean 🛒</button>
+            </div>
+            <div class="kartu" onclick="bukaModal('Cokelat')">
+                <div class="ikon-menu">🍫</div>
+                <h3>Cokelat</h3>
+                <div class="harga">Rp 15.000</div>
+                <button class="btn-pesan-kartu">Ambil Antrean 🛒</button>
+            </div>
+            <div class="kartu" onclick="bukaModal('Keju')">
+                <div class="ikon-menu">🧀</div>
+                <h3>Keju</h3>
+                <div class="harga">Rp 15.000</div>
+                <button class="btn-pesan-kartu">Ambil Antrean 🛒</button>
+            </div>
+            <div class="kartu" onclick="bukaModal('Tiramisu')">
+                <div class="ikon-menu">☕</div>
+                <h3>Tiramisu</h3>
+                <div class="harga">Rp 15.000</div>
+                <button class="btn-pesan-kartu">Ambil Antrean 🛒</button>
+            </div>
+            <div class="kartu" onclick="bukaModal('Cokelat Keju')">
+                <div class="ikon-menu">🍫🧀</div>
+                <h3>Cokelat Keju</h3>
+                <div class="harga">Rp 15.000</div>
+                <button class="btn-pesan-kartu">Ambil Antrean 🛒</button>
+            </div>
+        </div>
+
+        <!-- PAPAN ANTREAN LIVE (TETAP ADA) -->
+        <div class="wadah-antrean">
+            <h2 style="margin-top: 0; color: var(--coklat-kraft);">📢 Papan Antrean Outlet</h2>
+            {% if antrean %}
+                {% for p in antrean %}
+                <div class="tiket">
+                    <div style="text-align: left;">
+                        <h3 style="margin:0; color: var(--hijau-segar);">#0{{ p.id }} - {{ p.nama }}</h3>
+                        <p style="margin:5px 0 0 0; color:#666;">{{ p.menu }} ({{ p.topping }}) | Bayar: {{ p.pembayaran }}</p>
+                    </div>
+                    <div class="status-badge">{{ p.status }}</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p style="font-size: 1.1em; color: gray;">Belum ada antrean saat ini. Yuk, pesan sekarang!</p>
+            {% endif %}
+        </div>
+        
+        <!-- BAGIAN ORDER ONLINE (WA/GOJEK) SUDAH DIHAPUS TOTAL DARI SINI -->
+        
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 Pisang Lamak - Outlet Self Service System 🍌💚</p>
+    </footer>
+
+    <!-- MODAL / POPUP FORMULIR PESANAN -->
+    <div id="modalPesanan" class="modal-overlay">
+        <div class="modal-content">
+            <div class="btn-tutup" onclick="tutupModal()">✖</div>
+            <h2 style="color: var(--coklat-kraft); margin-top: 0;" id="judulModal">Pesan Menu</h2>
+            <!-- PASTIKAN ACTION-NYA MENGARAH KE ROUTE OUTLET (Sesuai app.py kamu) -->
+            <form action="/pesan-di-outlet" method="POST">
+                <input type="hidden" name="menu" id="inputMenuRahasia">
+                <div class="form-grup">
+                    <label>Nama Kamu:</label>
+                    <input type="text" name="nama" placeholder="Masukkan nama panggilan..." required>
+                </div>
+                <div class="form-grup" style="background: #FFF9E6; padding: 15px; border-radius: 12px; border: 2px dashed var(--kuning-pisang);">
+                    <label style="color: var(--coklat-kraft); cursor: pointer; margin: 0; font-weight: normal;">
+                        <input type="checkbox" name="topping" value="ya" style="transform: scale(1.3); margin-right: 10px;"> 
+                        <strong>Extra Topping</strong> (+Rp 2.000)
+                    </label>
+                </div>
+                <div class="form-grup">
+                    <label>Metode Pembayaran:</label>
+                    <select name="pembayaran">
+                        <option value="QRIS">QRIS (Scan Barcode di Kasir)</option>
+                        <option value="Tunai">Tunai ke Kasir</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit-pesanan">Ambil Antrean! 🚀</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function bukaModal(namaMenu) {
+            document.getElementById('modalPesanan').style.display = 'flex';
+            document.getElementById('judulModal').innerText = "Pesan " + namaMenu;
+            document.getElementById('inputMenuRahasia').value = namaMenu;
+        }
+        function tutupModal() {
+            document.getElementById('modalPesanan').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
