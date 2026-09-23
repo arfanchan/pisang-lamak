@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pisang Lamak | Lamak Rasonyo!</title>
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- PENGATURAN WARNA --- */
+        :root {
+            --kuning-pisang: #FFDF00;
+            --hijau-segar: #4CAF50;
+            --hijau-matcha: #81C784;
+            --coklat-kraft: #6D4C41;
+            --krem-background: #FFF9E6;
+            --oranye-shopee: #EE4D2D;
+            --hijau-gofood: #00AA13;
+            --hijau-grab: #00B14F;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--krem-background);
+            color: var(--coklat-kraft);
+            margin: 0; padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* --- ANIMASI GELEMBUNG (SOFT BUBBLES) --- */
+        .bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .bubble {
+            position: absolute; bottom: -100px;
+            background-color: rgba(76, 175, 80, 0.15); /* Hijau transparan lembut */
+            border-radius: 50%;
+            animation: float 8s infinite ease-in;
+        }
+        .bubble:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-duration: 9s; }
+        .bubble:nth-child(2) { width: 40px; height: 40px; left: 30%; animation-duration: 6s; animation-delay: 2s; }
+        .bubble:nth-child(3) { width: 100px; height: 100px; left: 50%; animation-duration: 12s; }
+        .bubble:nth-child(4) { width: 60px; height: 60px; left: 70%; animation-duration: 8s; animation-delay: 1s; }
+        
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-1000px) scale(1.5); opacity: 0; }
+        }
+
+        /* --- BAGIAN HEADER (DESAIN ASLI) --- */
+        header {
+            background-color: var(--kuning-pisang);
+            width: 100%; padding: 50px 20px; text-align: center;
+            border-bottom: 8px solid var(--hijau-segar);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+        }
+
+        .wadah-maskot {
+            background: white; width: 130px; height: 130px; margin: 0 auto 15px auto;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            border: 4px solid var(--coklat-kraft); box-shadow: 0 6px 0 var(--coklat-kraft);
+            overflow: hidden;
+            animation: goyang 2s infinite alternate ease-in-out; /* Animasi Soft */
+        }
+        .wadah-maskot img { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes goyang {
+            0% { transform: rotate(-5deg) translateY(0); }
+            100% { transform: rotate(5deg) translateY(-5px); }
+        }
+
+        header h1 { font-size: 3.8em; margin: 0; color: var(--coklat-kraft); text-shadow: 3px 3px 0px white; }
+        .slogan { font-size: 1.4em; margin-top: 10px; font-weight: 600; color: var(--hijau-segar); background: white; display: inline-block; padding: 8px 20px; border-radius: 25px; border: 2px dashed var(--hijau-segar); }
+        .status-toko { background: #E8F5E9; color: #2E7D32; padding: 6px 15px; border-radius: 15px; font-weight: 700; border: 2px solid var(--hijau-segar); margin-top: 15px; display: inline-block; }
+
+        /* --- KONTEN MENU --- */
+        .konten-utama { max-width: 1000px; margin: 40px auto; padding: 0 20px; text-align: center; }
+        .konten-utama h2 { color: var(--hijau-segar); font-size: 2.5em; text-shadow: 1px 1px 0px white; margin-bottom: 10px; }
+        
+        .info-topping-box { background: white; border: 3px dashed var(--coklat-kraft); padding: 12px 20px; border-radius: 20px; margin-bottom: 35px; font-weight: 600; display: inline-block; }
+        .info-topping-box span { color: #FF5722; font-weight: 700; }
+
+        /* Grid Kartu Menu (Tanpa Kursor Pointer & Animasi Hover Dikurangi) */
+        .grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; }
+        .kartu {
+            background: rgba(255, 255, 255, 0.9); border: 4px solid var(--coklat-kraft);
+            border-radius: 25px; padding: 30px 20px; position: relative;
+            box-shadow: 0 10px 0 var(--kuning-pisang);
+        }
+        
+        .badge-baru { position: absolute; top: 15px; right: 15px; background: #FF5722; color: white; padding: 4px 10px; border-radius: 10px; font-weight: bold; transform: rotate(10deg); }
+        .ikon-menu { font-size: 60px; margin-bottom: 15px; }
+        .kartu h3 { margin: 10px 0; color: var(--hijau-segar); font-size: 1.6em; }
+        .harga { font-weight: 700; color: var(--coklat-kraft); font-size: 1.1em; background: var(--krem-background); padding: 6px 14px; border-radius: 12px; border: 2px dashed var(--coklat-kraft); display: inline-block; margin-bottom: 15px;}
+
+        /* --- PEMESANAN ONLINE (DELIVERY) --- */
+        .wadah-pemesanan {
+            margin-top: 60px; background: white; padding: 40px; border-radius: 30px;
+            border: 4px solid var(--coklat-kraft); box-shadow: 0 10px 0 var(--hijau-segar);
+            margin-bottom: 40px;
+        }
+        .wadah-pemesanan h3 { font-size: 2em; color: var(--coklat-kraft); margin-top: 0; margin-bottom: 25px; }
+        .grid-delivery { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .btn-delivery {
+            color: white; border: 3px solid var(--coklat-kraft); padding: 14px 25px;
+            font-size: 1.1em; font-family: 'Fredoka', sans-serif; font-weight: 700;
+            border-radius: 20px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 6px 0 var(--coklat-kraft); transition: 0.1s;
+        }
+        .btn-delivery:active { transform: translateY(6px); box-shadow: 0 0 0 var(--coklat-kraft); }
+        .btn-wa { background-color: var(--hijau-segar); }
+        .btn-shopee { background-color: var(--oranye-shopee); }
+        .btn-gofood { background-color: var(--hijau-gofood); }
+        .btn-grab { background-color: var(--hijau-grab); }
+
+        /* --- FOOTER & SOSMED --- */
+        footer {
+            background-color: var(--coklat-kraft); color: var(--krem-background);
+            width: 100%; text-align: center; padding: 30px 20px; border-top: 6px solid var(--kuning-pisang);
+            box-sizing: border-box;
+        }
+        .sosmed-container { margin-bottom: 15px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .sosmed-badge {
+            background-color: white; color: var(--coklat-kraft); padding: 8px 18px;
+            border-radius: 20px; font-weight: 600; text-decoration: none;
+            border: 2px solid var(--kuning-pisang); box-shadow: 0 4px 0 var(--kuning-pisang);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Animasi Bubble di Background -->
+    <div class="bubbles">
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+    </div>
+
+    <!-- HEADER (Asli) -->
+    <header>
+        <div class="wadah-maskot">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo Pisang Lamak">
+        </div>
+        <h1>PISANG LAMAK</h1>
+        <div class="slogan">✨ Lamak rasonyo, lapeh salero! ✨</div>
+        <br>
+        <div class="status-toko">🟢 Buka Setiap Hari (10.00 - 21.00 WIB)</div>
+    </header>
+
+    <div class="konten-utama">
+        <h2>Varian Rasa Juara! 🍌</h2>
+        <div class="info-topping-box">
+            ✨ Semua Varian <span>Rp 15.000</span> | Extra Topping Cukup <span>+Rp 2.000</span> ✨<br>
+            <small style="color: gray;">(Tersedia untuk pengiriman online ke rumahmu!)</small>
+        </div>
+        
+        <!-- GRID MENU (Hanya Menampilkan Produk, Tidak Bisa Diklik) -->
+        <div class="grid-menu">
+            <div class="kartu" style="border-color: var(--hijau-segar);">
+                <div class="badge-baru">BARU! 🔥</div>
+                <div class="ikon-menu">🍵</div>
+                <h3 style="color: #2E7D32;">Matcha Green Tea</h3>
+                <div class="harga">Rp 15.000</div>
+            </div>
+
+            <div class="kartu">
+                <div class="ikon-menu">🍫</div>
+                <h3>Cokelat</h3>
+                <div class="harga">Rp 15.000</div>
+            </div>
+
+            <div class="kartu">
+                <div class="ikon-menu">🧀</div>
+                <h3>Keju</h3>
+                <div class="harga">Rp 15.000</div>
+            </div>
+
+            <div class="kartu">
+                <div class="ikon-menu">☕</div>
+                <h3>Tiramisu</h3>
+                <div class="harga">Rp 15.000</div>
+            </div>
+
+            <div class="kartu">
+                <div class="ikon-menu">🍫🧀</div>
+                <h3>Cokelat Keju</h3>
+                <div class="harga">Rp 15.000</div>
+            </div>
+        </div>
+
+        <!-- TOMBOL DELIVERY ONLINE -->
+        <div class="wadah-pemesanan">
+            <h3>Mau Pesan Lewat Mana? 🛵</h3>
+            <p style="color: gray; margin-top:-15px; margin-bottom:20px;">Pilih aplikasi kesayanganmu untuk pesan langsung ke rumah:</p>
+            <div class="grid-delivery">
+                <a href="https://wa.me/6285179712350" target="_blank" class="btn-delivery btn-wa">
+                    💬 WhatsApp
+                </a>
+                <a href="https://shopee.co.id" target="_blank" class="btn-delivery btn-shopee">
+                    🛍️ ShopeeFood
+                </a>
+                <a href="https://gojek.com" target="_blank" class="btn-delivery btn-gofood">
+                    🟢 GoFood
+                </a>
+                <a href="https://grab.com" target="_blank" class="btn-delivery btn-grab">
+                    🟢 GrabFood
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER SOSIAL MEDIA -->
+    <footer>
+        <div class="sosmed-container">
+            <a href="https://instagram.com/pisang_lamak.id" target="_blank" class="sosmed-badge">📸 Instagram: @pisang_lamak.id</a>
+            <a href="https://tiktok.com/@pisang_lamak.id" target="_blank" class="sosmed-badge">🎵 TikTok: @pisang_lamak.id</a>
+        </div>
+        <p>© 2026 Pisang Lamak - Kreasi Kuliner Paling Hits! 🍌💚</p>
+    </footer>
+
+</body>
+</html>
