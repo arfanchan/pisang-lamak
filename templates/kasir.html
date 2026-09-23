@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Kasir - Pisang Lamak</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta http-equiv="refresh" content="10"> <!-- Auto refresh setiap 10 detik agar kasir selalu update -->
+    <style>
+        body { font-family: 'Fredoka', sans-serif; background-color: #f4f6f8; color: #333; margin: 0; padding: 20px; }
+        .header { background: #6D4C41; color: white; padding: 20px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .omset { background: #FFDF00; color: #6D4C41; padding: 10px 20px; border-radius: 10px; font-weight: bold; font-size: 1.2em; }
+        
+        table { width: 100%; background: white; margin-top: 20px; border-collapse: collapse; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #4CAF50; color: white; }
+        
+        .btn { padding: 8px 15px; border-radius: 8px; text-decoration: none; color: white; font-weight: bold; margin-right: 5px; }
+        .btn-kuning { background: #FF9800; }
+        .btn-hijau { background: #4CAF50; }
+        
+        .qris-box { background: white; margin-top: 30px; padding: 20px; text-align: center; border-radius: 15px; border: 2px dashed #ccc; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h2>🧑‍🍳 Dashboard Kasir Pisang Lamak</h2>
+        <div class="omset">Total Pendapatan: Rp {{ total_pendapatan }}</div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Pelanggan</th>
+                <th>Pesanan</th>
+                <th>Total Harga</th>
+                <th>Bayar</th>
+                <th>Status</th>
+                <th>Aksi Kasir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in pesanan %}
+            <tr>
+                <td><strong>#0{{ p.id }}</strong></td>
+                <td>{{ p.nama }}</td>
+                <td>{{ p.menu }}<br><small style="color:gray;">{{ p.topping }}</small></td>
+                <td style="font-weight:bold;">Rp {{ p.total }}</td>
+                <td>{{ p.pembayaran }}</td>
+                <td>{{ p.status }}</td>
+                <td>
+                    {% if p.status != 'Selesai ✅' %}
+                        <a href="/update_status/{{ p.id }}/dimasak" class="btn btn-kuning">Masak 🍳</a>
+                        <a href="/update_status/{{ p.id }}/selesai" class="btn btn-hijau">Selesai ✅</a>
+                    {% else %}
+                        <span style="color:green; font-weight:bold;">Tuntas 🎉</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not pesanan %}
+            <tr><td colspan="7" style="text-align:center;">Belum ada pesanan hari ini.</td></tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="qris-box">
+        <h3>Barcode QRIS Pembayaran</h3>
+        <p>Letakkan gambar QRIS toko / rekening BCA kamu di sini agar pelanggan bisa langsung scan.</p>
+        <div style="width: 200px; height: 200px; background:#eee; margin:0 auto; display:flex; align-items:center; justify-content:center; border:2px solid #ccc;">
+            [ GAMBAR QRIS ]
+        </div>
+    </div>
+
+</body>
+</html>
